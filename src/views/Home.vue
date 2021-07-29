@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <el-input
       clearable
       maxlength="8"
@@ -31,25 +30,18 @@
 // @ is an alias to /src
 import { mapActions } from "vuex"
 import wx from "weixin-js-sdk"
-// import { getScanCode } from "@/api/scancode.js"
 import qs from "qs"
 import { post } from "@/js/utils.js"
-// import wx from "@/js/jweixin-1.6.0.js"
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
-  },
+  components: { },
   data(){
     return{
       showPrompt: "",
       productCode: "",
       visible: false,
-      flag: "",
       product_code: "",
-      code:"",
     }
   },
   methods:{

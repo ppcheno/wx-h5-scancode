@@ -1,29 +1,61 @@
 <template>
-  <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <el-input
-      clearable
-      maxlength="8"
-      autofocus="autofocus"
-      id="code"
-      v-model="productCode"
-      placeholder="输入防伪码或者扫一扫"
-      style="width:220px;margin-right:15px;"
-      @change="searchBtnClick"
-    >
-    <!--<i slot="prefix" class="el-input__icon el-icon-search" /> -->
-    </el-input>
-    <el-button plain circle size="mini" @click="scanClick" class="el-icon-full-screen">
-    </el-button>
-    <el-button type="primary" @click="searchBtnClick">查询</el-button>
+<div class="home">
+  <div class="homes">
+    <div class="logoImg">
+      <img  alt="" src="../assets/hefeng.png">
+    </div>
+    <div class="title">
+      <h3>护颈塑形乳胶枕</h3>
+      <div class="titleBig">一个正颈的枕头</div>
+    </div>
+    <div class="productImg">
+      <img src="../assets/zhentou.png" alt="">
+    </div>
+    
+    <div class="scan">
+      <i class="iconfont" @click="scanClick" >&#xe666; <span class="iconfontLine"></span></i>
+      <!-- <i slot="prefix" class="el-input__icon el-icon-full-screen" @click="scanClick"/> -->
+      <div class="settingInput">
+        <el-input
+          maxlength="8"
+          autofocus="autofocus"
+          v-model="productCode"
+          placeholder="扫 条 形 码 验 证"
+          style="width:200px;"
+          @change="searchBtnClick"
+        />
+      </div>
+      <button  @click="searchBtnClick">
+        确定
+      </button>
       <el-dialog
       title="提示"
       center
       :visible.sync="visible"
       width="75%">
-      <span style="margin-left:55px;">{{showPrompt}}</span>
+      <span>{{showPrompt}}</span>
       </el-dialog>
+    <!-- <el-button plain circle size="mini" @click="scanClick" class="el-icon-full-screen">
+    </el-button> -->
+    </div>
+    <div class="scanPrompt">
+      防伪查询 (手机扫描标签上的条形码)
+    </div>
+    <div class="lineSmall"></div>
+    <div class="about">
+      <div>about us</div>
+      <div style="margin:32px 0 5px 0;">禾风</div>
+      <div style="margin-bottom:32px;">中国智能睡眠领域的新兴科技创新品牌</div>
+      <div class="aboutFont">
+        专注研究年轻人的睡眠颈态，独家研发颈态塑形乳胶和智能监测乳胶枕等产品。为现代都市人而生，致力于改善身体亚健康状态的同时，通过颈态三大黄金修护力，塑形挺拔身姿，打造完美气质。
+      </div>
+      <div class="hefengLogo">
+        <img  alt="" src="../assets/hefeng2.png">
+      </div>
+      <div style="margin-bottom:50px;">广州禾风智眠科技有限公司</div>
+    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -32,10 +64,11 @@ import { mapActions } from "vuex"
 import wx from "weixin-js-sdk"
 import qs from "qs"
 import { post } from "@/js/utils.js"
+import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: { },
+  components: {},
   data(){
     return{
       showPrompt: "",
@@ -50,17 +83,23 @@ export default {
     }),
     // 输入
     searchBtnClick(){
-      alert('机身码为:'+this.productCode);
-      console.log(String(this.productCode));
+      // alert('机身码为:'+this.productCode);
+      // console.log(String(this.productCode));
         this.getScanCode({
            product_code:String(this.productCode)
         })
         .then((res)=>{
-          console.log(res);
-          if(res){
-            alert("扫码结果:"+res.msg);
+          // console.log(res);
+          if(res.code=='000000'){
+            alert("扫码结果:"+res.msg+"   该产品为正品!");
             // this.visible=true;
-            // this.showPrompt=res.msg;
+            // if(res.code=='000000'){
+            //   this.showPrompt=res.msg+"该产品为正品";
+            // }else{
+            //   this.showPrompt=res.msg;
+            // }
+          }else{
+            alert("扫码结果:"+res.msg);
           }
         })
         .catch(err=>{
@@ -113,7 +152,7 @@ export default {
               var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
               var test2=(result.split(",")).slice(1,2);
               self.productCode=test2;
-              alert("返回的result:"+test2+"机身码是:"+self.productCode);
+              // alert("返回的result:"+test2+"机身码是:"+self.productCode);
             },
             fail: function (err){
               console.log(err);
@@ -331,9 +370,176 @@ export default {
 }
 </script>
 
-<style>
-.home{
-  width:100%;
-  margin:60px auto 20px;
+<style lang="scss">
+@font-face {
+  font-family: 'iconfont';  /* Project id 2715413 */
+  src: url('//at.alicdn.com/t/font_2715413_g9yre945gw.woff2?t=1627872467436') format('woff2'),
+       url('//at.alicdn.com/t/font_2715413_g9yre945gw.woff?t=1627872467436') format('woff'),
+       url('//at.alicdn.com/t/font_2715413_g9yre945gw.ttf?t=1627872467436') format('truetype');
 }
+
+.home{
+  box-sizing: border-box;
+  width:100%;
+  // min-height: 100%;
+  max-height: 1250px;
+  padding: 10px;
+  background-color:#c6e0d7;
+  position: absolute;
+  top:0;
+  left: 0;
+  // overflow-y: auto;
+  margin:0;
+  padding: 0;
+  .homes{
+   width:100%;
+   height: 100%;
+   margin-top:40px;
+   margin-bottom: 100px;
+    .logoImg{
+     width:80px;
+     height: 40px;
+     margin-left:275px;
+      img{
+       width:80px;
+       height: 40px;
+      }
+    }
+    .title{
+      margin:0 32px;
+      h3{
+        margin:0;
+        font-size:22px;
+        font-weight: 700;
+        color: #729086;
+      }
+      .titleBig{
+        font-size: 32px;
+        font-weight: 500;
+        color:#739388;
+      }
+    }
+    .productImg{
+      margin-top: 25px;
+      width:280px;
+      height:350px;
+      img{
+        width:280px;
+        height:350px;
+      }
+    }
+    .scan{
+      position: relative;
+      margin-top:30px;
+      margin-left:89px;
+      height:40px;
+      display: flex;
+      .settingInput{
+        height:40px;
+        border-radius: 0px !important;
+        .el-input__inner{
+          padding: 2px 0 0 52px;
+        }
+        .el-input__inner::placeholder{
+          color: #709186;
+          font-size: 18px;
+          line-height: 40px;
+        }
+        /* 谷歌 */
+        .el-input__inner::-webkit-input-placeholder {
+          color: #709186;
+          font-size: 18px;
+          line-height: 40px;
+        }
+        /* 火狐 */
+        el-input__inner:-moz-placeholder {
+          color: #709186;
+          font-size: 18px;
+          line-height: 40px;
+        }
+        /*ie*/
+        el-input__inner:-ms-input-placeholder {
+          color: #709186;
+          font-size: 18px;
+          line-height: 40px;
+        }
+      }
+      .iconfont{
+        position: absolute;
+        top:3px;
+        left:4px;
+        z-index: 99;
+        font-family:"iconfont" !important;
+        font-size:30px;
+        color: #03cfb6;
+        font-style:normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: 0.2px;
+        -moz-osx-font-smoothing: grayscale;
+        .iconfontLine{
+          position: absolute;
+          top:2px;
+          left:36px;
+          width:1px;
+          height: 28px;
+          font-weight: 500;
+          background-color: #98bcb0;
+        }
+      }
+      button{
+        height:40px;
+        width:55px;
+        background-color:#03cfb4;
+        padding: 0 !important;
+        color:#fff;
+        border:0;
+        line-height: 38px;
+        font-size:16px;
+      } 
+    }
+    .scanPrompt{
+      margin-top:10px;
+      margin-left: 89px;
+      color: #729086;
+      font-size: 12px;
+      // word-spacing:2px;
+      letter-spacing:1px;
+    }
+    .lineSmall{
+      margin:70px 0 0 40px;
+      width:30px;
+      height: 6px;
+      background-color: #02c7ab;
+    }
+    .about{
+      color:#648479;
+      margin:42px 0 40px 40px;
+      letter-spacing:1px;
+      font-size:14px;
+      .aboutFont{
+        width: 256px;
+        letter-spacing:2px;
+        line-height: 256px;
+        line-height: 20px;
+        white-space: wrap;
+        margin-bottom: 110px;
+      }
+      .hefengLogo{
+        width: 61px;
+        height: 28px;
+        margin-bottom: 22px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    } 
+
+  }
+}
+  
+
+
+
+
 </style>

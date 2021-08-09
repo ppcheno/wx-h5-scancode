@@ -9,7 +9,7 @@
       <div class="titleBig">一个正颈的枕头</div>
     </div>
     <div class="productImg">
-      <img src="../assets/zhentou.png" alt="">
+      <img src="../assets/zhentou.jpg" alt="">
     </div>
     
     <div class="scan">
@@ -25,18 +25,27 @@
           @change="searchBtnClick"
         />
       </div>
-      <button  @click="searchBtnClick">
+      <button @click="searchBtnClick">
         确定
       </button>
+      <!-- :visible.sync="visible" -->
       <el-dialog
-      title="提示"
-      center
-      :visible.sync="visible"
-      width="75%">
-      <span>{{showPrompt}}</span>
+      class="promptDialog"
+      :show-close="false"
+      :visible="visible"
+      width="62%"
+      height="23%">
+      <img @click="prompt" class="promptImg" src="../assets/logo2.png" />
       </el-dialog>
-    <!-- <el-button plain circle size="mini" @click="scanClick" class="el-icon-full-screen">
-    </el-button> -->
+      <el-dialog
+      class="fakeDialog"
+      :show-close="false"
+      :visible="visibles"
+      width="62%"
+      height="23%">
+      <img @click="fake" class="fakeImg" src="../assets/logo1.png" />
+      <!-- <span>{{showPrompt}}</span> -->
+      </el-dialog>
     </div>
     <div class="scanPrompt">
       防伪查询 (手机扫描标签上的条形码)
@@ -74,6 +83,7 @@ export default {
       showPrompt: "",
       productCode: "",
       visible: false,
+      visibles:false,
       product_code: "",
     }
   },
@@ -81,26 +91,29 @@ export default {
     ...mapActions({
       getScanCode:"scancode/getScanCode",
     }),
+    prompt(){
+      this.visible=false;
+    },
+    fake(){
+      this.visibles=false;
+    },
     // 输入
     searchBtnClick(){
-      // alert('机身码为:'+this.productCode);
       // console.log(String(this.productCode));
         this.getScanCode({
            product_code:String(this.productCode)
         })
         .then((res)=>{
-          // console.log(res);
-          if(res.code=='000000'){
-            alert("扫码结果:"+res.msg+"   该产品为正品!");
-            // this.visible=true;
-            // if(res.code=='000000'){
-            //   this.showPrompt=res.msg+"该产品为正品";
-            // }else{
-            //   this.showPrompt=res.msg;
-            // }
-          }else{
-            alert("扫码结果:"+res.msg);
-          }
+          // if(res.code=='000000'){
+          //   alert("扫码结果:"+res.msg+"   该产品为正品!");
+          // }else{
+          //   alert("扫码结果:"+res.msg);
+          // }
+            if(res.code=='000000'){
+              this.visible=true;
+            }else{
+              this.visibles=true;
+            }
         })
         .catch(err=>{
           console.log(err);
@@ -412,20 +425,23 @@ export default {
         font-size:22px;
         font-weight: 700;
         color: #729086;
+        letter-spacing:1px;
       }
       .titleBig{
         font-size: 32px;
-        font-weight: 500;
+        font-family: 'STFangsong' !important;
         color:#739388;
+        letter-spacing:1px;
       }
     }
     .productImg{
       margin-top: 25px;
       width:280px;
-      height:350px;
+      height:380px;
       img{
         width:280px;
-        height:350px;
+        height:380px;
+        object-fit:cover;
       }
     }
     .scan{
@@ -496,6 +512,43 @@ export default {
         line-height: 38px;
         font-size:16px;
       } 
+      .promptDialog {
+        margin-top:158px;
+        .el-dialog__header{
+          padding: 0;
+        } 
+        .el-dialog__body{
+        padding: 0;
+        width: 260px;
+        height: 150px;
+        background-color: #c6dfd7;
+        // background: url('../assets/logo2.png') center center no-repeat;
+        // background-size: 105% 108%; width:240px;height: 150px;
+         .promptImg{
+           padding: 0;
+          width: 100%;
+          height: 100%;
+         }
+        }
+      }
+      .fakeDialog{
+        margin-top:158px;
+        .el-dialog__header{
+          padding: 0;
+        } 
+        .el-dialog__body{
+          padding: 0;
+          width: 260px;
+          height: 175px;
+          background-color: #c6dfd7;
+         .fakeImg{
+          padding: 0;
+          width: 100%;
+          height: 100%;
+         }
+        }
+      }
+      
     }
     .scanPrompt{
       margin-top:10px;

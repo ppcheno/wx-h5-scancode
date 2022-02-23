@@ -1,4 +1,6 @@
-# wx-scancode
+
+# wx-scancode 
+## 禾风枕头防伪码查询页面
 
 ## Project setup
 ```
